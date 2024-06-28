@@ -1,0 +1,28 @@
+body {
+  margin: 0;
+  font-family: Montserrat, sans-serif !important;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.jumbotron {
+  background: linear-gradient(21deg, #cccccc, #3c3c3c);
+}
+
+.newsletter {
+
+}
+
+h2.newsletter-title {
+  font-size: 40px !important;
+  padding-bottom: 10px;
+}
+
+.fs-6 {
+  font-size: 15px !important;
+}
