@@ -18,6 +18,7 @@ function AddQuote() {
             quote: values.quote
          });
          navigate("/")
+         setSubmitting(true)
       } catch (error) {
          console.log(`Error adding quote: ${error}`)
       } finally {

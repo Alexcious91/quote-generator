@@ -13,8 +13,8 @@ function NavbarComponent() {
       if (isAuth) {
          const fetchUsername = async () => {
             try {
-               const response = await axios.get("http://localhost:5000/api/user/details")
-               console.log(`Server response: ${response}`)
+               const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details")
+               console.log(`Server response: ${response.data}`)
                if (response.status === 200) {
                   setUsername(response.data.providerData[0].email)
                }
