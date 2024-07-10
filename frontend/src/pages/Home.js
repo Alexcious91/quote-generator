@@ -3,18 +3,20 @@ import NavbarComponent from "../components/Navbar";
 import Jumbotron from "../components/Jumbotron";
 import { Container, Card, Button, Form } from "react-bootstrap";
 import Footer from "../components/Footer";
+import moment from "moment"
 
 import axios from "axios";
 
 function Home() {
    const [data, setData] = useState([]);
    const [currentQuote, setCurrentQuote] = useState(0);
+   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
 
    useEffect(() => {
       const fetchQuotes = async () => {
          try {
             const response = await axios.get("https://quote-generator-backend.onrender.com/api/quotes")
-            // console.log(response.data)
+            console.log(response.data)
             setData(response.data)
          } catch (error) {
             console.error(error)
@@ -44,7 +46,10 @@ function Home() {
                ) : (
                   <div key={currentQuote}>
                      <h4>{data[currentQuote].quote}</h4>
-                     <i>~{data[currentQuote].author}</i>
+                     <div className="pt-1 d-flex justify-content-between">
+                        <i>~{data[currentQuote].postedBy}</i>
+                        <p className="opacity-50">{moment(data.createdAt).format("MMMM Do YYYY")}</p>
+                     </div>
                   </div>
                )}
             </Card>
@@ -58,6 +63,7 @@ function Home() {
          <div className="newsletter bg-dark text-white mt-5 p-5">
             <div className="p-4">
                <h2 className="newsletter-title">STAY IN TOUCH</h2>
+               <p>Sign up to our newsletter to get daily quotes straight to you</p>
                <div className="input-group col-sm-4 col-md-4 col-lg-8">
                   <input className="form-control fs-6 w-25 rounded-0" placeholder="Enter your e-mail address" />
                   <div className="mb-0 input-group-append align-items-center">

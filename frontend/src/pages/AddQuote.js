@@ -8,13 +8,31 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function AddQuote() {
-  const [username, setUsername] = useState(null);
-  const navigate = useNavigate();
+   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
+   const [username, setUsername] = useState("");
+   const navigate = useNavigate();
+
+   useEffect(() => {
+      if (isAuth) {
+         const fetchUsername = async () => {
+            try {
+               const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details");
+               setUsername(response.data.displayName)
+
+            } catch (error) {
+               console.error(`Couldn't retrieve user details: ${error.message}`)    
+            }
+         }
+         fetchUsername()
+      } else { 
+         navigate("/user/login")
+      }
+   }, [])
 
    const handleSubmit = async (values, { setSubmitting }) => {
       try {
          await axios.post("https://quote-generator-backend.onrender.com/api/new/quote", {
-            author: values.author,
+            postedBy: username,
             quote: values.quote
          });
          navigate("/")
@@ -36,16 +54,12 @@ function AddQuote() {
 
          <Container>
             <Formik
-               initialValues={{ author: '', quote: '' }}
+               initialValues={{ postedBy: '', quote: '' }}
                validate={(values) => {
                   const errors = {};
 
-                  if (!values.author) {
-                     errors.author = "Author required."
-                  } else if (!values.quote) {
+                  if (!values.quote) {
                      errors.quote = "Quote required."
-                  } else if (values.quote.length < 10) {
-                     errors.quote = "Qoute is too short"
                   }
                   return errors
                }}
@@ -53,18 +67,19 @@ function AddQuote() {
             >
                {({ isSubmitting, handleChange, handleSubmit, values }) => (
                   <Form onSubmit={handleSubmit} className="m-2">
-                     <Form.Group className="my-1">
-                        <Form.Label>Author</Form.Label>
+                     <Form.Group className="mt-2">
+                        <Form.Label>Posted By</Form.Label>
                         <Form.Control
                            type="text"
+                           className="opacity-75"
                            onChange={handleChange}
-                           placeholder="Enter your quote"
-                           name="author"
-                           value={values.author}
-                           // disabled
-                           // data-toggle="tooltip"
-                           // data-placement="top"
-                           // title="Author name will your username, don't worry filling in this"
+                           name="postedBy"
+                           placeholder={username}
+                           value={values.postedBy}
+                           disabled
+                           data-toggle="tooltip"
+                           data-placement="top"
+                           title="Don't worry about filling in this, this is your name"
                         />
                      </Form.Group>
 
