@@ -47,6 +47,8 @@ function Register() {
 
                   if (!values.email) {
                      errors.email = "Email required";
+                  } else if (errors.response === 400) {
+                     errors.email = "Email already exists, try another one"
                   } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)) {
                      errors.email = "Invalid email address";
                   }
@@ -68,13 +70,14 @@ function Register() {
                            onChange={handleChange}
                            value={values.username}
                            name='username'
+                           required
                         />
                         {errors.username && (
-                           <p className='bg-danger opacity-2 rounded p-2'>{errors.username}</p>
+                           <p className='text-danger opacity-1 rounded p-2'>{errors.username}</p>
                         )}
                      </Form.Group>
 
-                     <Form.Group className='py-1'>
+                     <Form.Group>
                         <Form.Label>Email</Form.Label>
                         <Form.Control
                            type='email'
@@ -82,13 +85,14 @@ function Register() {
                            onChange={handleChange}
                            value={values.email}
                            name='email'
+                           required
                         />
                         {errors.email && (
-                           <p className='bg-danger rounded p-2'>{errors.email}</p>
+                           <p className='text-danger opacity-1 rounded-0 p-2'>{errors.email}</p>
                         )}
                      </Form.Group>
 
-                     <Form.Group className='py-1'>
+                     <Form.Group>
                         <Form.Label>Password</Form.Label>
                         <Form.Control
                            type='password'
@@ -96,9 +100,10 @@ function Register() {
                            onChange={handleChange}
                            value={values.password}
                            name='password'
+                           required
                         />
                         {errors.password && (
-                           <p className='bg-danger rounded p-2'>{errors.password}</p>
+                           <p className='text-danger rounded-0 p-2'>{errors.password}</p>
                         )}
                      </Form.Group>
                      <Button variant='success' type='submit' className='mt-3 w-100' disabled={isSubmitting}>Register</Button>
