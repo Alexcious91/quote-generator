@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function NavbarComponent() {
-   const [username, setUsername] = useState("");
+   const [username, setUsername] = useState(null);
    const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
    const navigate = useNavigate()
 
@@ -14,25 +14,26 @@ function NavbarComponent() {
          const fetchUsername = async () => {
             try {
                const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details")
+               setUsername(response.data.providerData[0].displayName)
                console.log(`Server response: ${response.data}`)
-               if (response.status === 200) {
-                  setUsername(response.data.providerData[0].email)
-               }
             } catch (err) {
-               console.error(`Error fetching username: ${err}`)
+               console.error(`[ERROR]: ${err}`)
             }
          }
          fetchUsername()
       }
-   }, [])
+   }, [isAuth])
+
 
    const signOutFunction = async () => {
       try {
-         localStorage.removeItem("isAuth")
-         setTimeout(() => {
-            navigate("/user/login")
-         }, 1500)
+         const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/logout")
 
+         if (response.status === 200 && response.data === "Successfully logged out") {
+            navigate("/user/login")
+            localStorage.removeItem("isAuth")
+            setUsername(null)
+         }
       } catch (err) {
          console.error(err)
       }
@@ -58,10 +59,12 @@ function NavbarComponent() {
                   <hr />
                   <Nav className="ms-auto">
                      {isAuth ? (
-                        <div className="d-flex justify-content-end">
+                        <div className="d-flex justify-content-end align-items-center">
                            <Nav.Item>
                               <Nav.Link href="/" className="m-0">Signed as: <strong>{username}</strong></Nav.Link>
                            </Nav.Item>
+                           <div className="vr mx-2"></div>
+                           <Nav.Link href="/user/quotes">My quotes</Nav.Link>
                            <div className="vr mx-2"></div>
                            <Nav.Item>
                               <Button className="bg-secondary border-0 m-0 pe-auto" onClick={signOutFunction}>Logout</Button>
