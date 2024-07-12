@@ -69,6 +69,9 @@ function Login() {
                            name='email'
                         />
                         <Form.Control.Feedback type='invalid'>{errors.email}</Form.Control.Feedback>
+                        {errors.email && (
+                           <p className='text-danger rounded p-2 m-0'>{errors.email}</p>
+                        )}
                      </Form.Group>
 
                      <Form.Group className='py-1'>
@@ -81,7 +84,7 @@ function Login() {
                            name='password'
                         />
                         {errors.password && (
-                           <p className='bg-danger rounded p-2'>{errors.password}</p>
+                           <p className='text-danger rounded p-2 m-0'>{errors.password}</p>
                         )}
                      </Form.Group>
                      <Button variant='success' type='submit' className='mt-3 w-100' disabled={isSubmitting}>Login</Button>

@@ -14,7 +14,7 @@ function NavbarComponent() {
          const fetchUsername = async () => {
             try {
                const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details")
-               setUsername(response.data.providerData[0].displayName)
+               setUsername(response.data.providerData[0].email)
                console.log(`Server response: ${response.data}`)
             } catch (err) {
                console.error(`[ERROR]: ${err}`)

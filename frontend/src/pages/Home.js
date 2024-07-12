@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import NavbarComponent from "../components/Navbar";
 import Jumbotron from "../components/Jumbotron";
-import { Container, Card, Button, Form } from "react-bootstrap";
+import { Container, Card, Button } from "react-bootstrap";
 import Footer from "../components/Footer";
 import moment from "moment"
 
@@ -9,8 +9,6 @@ import axios from "axios";
 
 function Home() {
    const [data, setData] = useState([]);
-   const [currentQuote, setCurrentQuote] = useState(0);
-   const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
 
    useEffect(() => {
       const fetchQuotes = async () => {
@@ -25,38 +23,36 @@ function Home() {
       fetchQuotes()
    }, []);
 
-   const handleNextQuote = () => {
-      if (data.length > 0) {
-         setCurrentQuote((prevIndex) => (prevIndex + 1) % data.length);
-      }
-   };
-
    return (
       <>
          <NavbarComponent />
          <Jumbotron>
-            <h2 className="p-2">QUOTE GENERATOR</h2>
+            <h2 className="p-2">QUOTES GALLERY</h2>
             <h5 className="p-2 lead">Feeling A Little Bit Unmotivated? Get Motivated, <strong>here</strong></h5>
          </Jumbotron>
 
          <Container className="justify-content-center mt-5">
-            <Card className="p-5">
+            <div className="p-5 border">
                {data && data.length === 0 ? (
                   <p>No quotes available, upload one <a href="/new/quote">here</a>.</p>
                ) : (
-                  <div key={currentQuote}>
-                     <h4>{data[currentQuote].quote}</h4>
-                     <div className="pt-1 d-flex justify-content-between">
-                        <i>~{data[currentQuote].postedBy}</i>
-                        <p className="opacity-50">{moment(data.createdAt).format("MMMM Do YYYY")}</p>
-                     </div>
+                  <div className="row">
+                     {data.slice(0, 3).map((quote, index) => (
+                        <div className="col mb-4" key={index}>
+                           <Card className="px-5 py-4">
+                              <h4>{quote.quote}</h4>
+                              <div className="pt-1 d-flex justify-content-between">
+                                 <i>~ {quote.postedBy}</i>
+                                 <p className="opacity-50">{moment(quote.createdAt.seconds * 1000).format("MMMM Do YYYY")}</p>
+                              </div>
+                           </Card>
+                        </div>
+                     ))}
                   </div>
                )}
-            </Card>
+            </div>
             {data.length > 0 && (
-               <Button variant="dark" className="w-100 mt-3" onClick={handleNextQuote}>
-                  Generate
-               </Button>
+               <Button variant="dark" className="w-100 mt-3">Show more</Button>
             )}
          </Container>
 
