@@ -13,7 +13,7 @@ function Login() {
    // login with email and password
    const handleFormSubmit = async (values, { setSubmitting }) => {
       try {
-         const response = await axios.post("http://localhost:5000/api/user/login", {
+         const response = await axios.post("https://quote-generator-backend.onrender.com/api/user/login", {
             email: values.email, 
             password: values.password
          })

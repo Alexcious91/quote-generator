@@ -13,7 +13,7 @@ function Home() {
    useEffect(() => {
       const fetchQuotes = async () => {
          try {
-            const response = await axios.get("http://localhost:5000/api/quotes")
+            const response = await axios.get("https://quote-generator-backend.onrender.com/api/quotes")
             console.log(response.data)
             setData(response.data)
          } catch (error) {

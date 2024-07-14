@@ -37,7 +37,7 @@ function MyQuotes() { //eslint-disable-next-line
 
    const handleDelete = async (quoteId) => {
       try {
-         const response = await axios.delete(`http://localhost:5000/api/delete/quote/${quoteId}`)
+         const response = await axios.delete(`https://quote-generator-backend.onrender.com/api/delete/quote/${quoteId}`)
          console.log("Quote deleted successfully")
          setMessage(prevMessages => ({ ...prevMessages, deleted: response.data.message })) // dont change the whole object
 
@@ -53,7 +53,7 @@ function MyQuotes() { //eslint-disable-next-line
       if (isAuth) {
          const fetchUserQuotes = async () => {
             try {
-               const response = await axios.get("http://localhost:5000/api/user/quotes")
+               const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/quotes")
                if (response.status === 200) {
                   setMyQuotes(response.data.quotes)
                   setError(null)
@@ -75,7 +75,7 @@ function MyQuotes() { //eslint-disable-next-line
    const handleSubmit = async (event) => {
       event.preventDefault()
       try {
-         const response = await axios.put(`http://localhost:5000/api/edit/quote/${quoteId}`, {
+         const response = await axios.put(`https://quote-generator-backend.onrender.com/api/edit/quote/${quoteId}`, {
             quote: quote
          })
          setMessage(prevMessages => ({ ...prevMessages, edited: response.data.message }))
