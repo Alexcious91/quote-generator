@@ -13,7 +13,7 @@ function Login() {
    // login with email and password
    const handleFormSubmit = async (values, { setSubmitting }) => {
       try {
-         const response = await axios.post("https://quote-generator-backend.onrender.com/api/user/login", {
+         const response = await axios.post("http://localhost:5000/api/user/login", {
             email: values.email, 
             password: values.password
          })
@@ -68,7 +68,6 @@ function Login() {
                            value={values.email}
                            name='email'
                         />
-                        <Form.Control.Feedback type='invalid'>{errors.email}</Form.Control.Feedback>
                         {errors.email && (
                            <p className='text-danger rounded p-2 m-0'>{errors.email}</p>
                         )}

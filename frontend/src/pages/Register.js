@@ -14,7 +14,7 @@ function Register() {
 
    const handleSubmit = async (values, { setSubmitting }) => {
       try {
-         const response = await axios.post("https://quote-generator-backend.onrender.com/api/user/register", {
+         const response = await axios.post("http://localhost:5000/api/user/register", {
             username: values.username,
             email: values.email,
             password: values.password

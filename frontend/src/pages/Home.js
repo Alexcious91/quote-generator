@@ -13,7 +13,7 @@ function Home() {
    useEffect(() => {
       const fetchQuotes = async () => {
          try {
-            const response = await axios.get("https://quote-generator-backend.onrender.com/api/quotes")
+            const response = await axios.get("http://localhost:5000/api/quotes")
             console.log(response.data)
             setData(response.data)
          } catch (error) {
@@ -51,7 +51,7 @@ function Home() {
                   </div>
                )}
             </div>
-            {data.length > 0 && (
+            {data.length > 3 && (
                <Button variant="dark" className="w-100 mt-3">Show more</Button>
             )}
          </Container>

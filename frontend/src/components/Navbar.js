@@ -13,10 +13,15 @@ function NavbarComponent() {
       if (isAuth) {
          const fetchUsername = async () => {
             try {
-               const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details")
+               const response = await axios.get("http://localhost:5000/api/user/details")
                setUsername(response.data.providerData[0].email)
                console.log(`Server response: ${response.data}`)
+
             } catch (err) {
+               if (err.response.status === 401) {
+                  localStorage.removeItem("isAuth")
+                  navigate("/user/login")
+               }
                console.error(`[ERROR]: ${err}`)
             }
          }
@@ -27,7 +32,7 @@ function NavbarComponent() {
 
    const signOutFunction = async () => {
       try {
-         const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/logout")
+         const response = await axios.get("http://localhost:5000/api/user/logout")
 
          if (response.status === 200 && response.data === "Successfully logged out") {
             navigate("/user/login")

@@ -16,7 +16,7 @@ function AddQuote() {
       if (isAuth) {
          const fetchUsername = async () => {
             try {
-               const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details");
+               const response = await axios.get("http://localhost:5000/api/user/details");
                setUsername(response.data.displayName)
 
             } catch (error) {
@@ -31,7 +31,7 @@ function AddQuote() {
 
    const handleSubmit = async (values, { setSubmitting }) => {
       try {
-         await axios.post("https://quote-generator-backend.onrender.com/api/new/quote", {
+         await axios.post("http://localhost:5000/api/new/quote", {
             postedBy: username,
             quote: values.quote
          });
