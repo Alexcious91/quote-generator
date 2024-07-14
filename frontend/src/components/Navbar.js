@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function NavbarComponent() {
-   const [username, setUsername] = useState(null);
+   const [username, setUsername] = useState(null); //eslint-disable-next-line
    const [isAuth, setIsAuth] = useState(localStorage.getItem("isAuth"))
    const navigate = useNavigate()
 
@@ -16,9 +16,9 @@ function NavbarComponent() {
                const response = await axios.get("https://quote-generator-backend.onrender.com/api/user/details")
                setUsername(response.data.providerData[0].email)
                console.log(`Server response: ${response.data}`)
-
+               if (!response.status === 200) localStorage.setItem("isAuth", false)
             } catch (err) {
-               if (err.response.status === 401) {
+               if (err.response.status === 401 || err.response.status === 500) {
                   localStorage.removeItem("isAuth")
                   navigate("/user/login")
                }
@@ -27,7 +27,7 @@ function NavbarComponent() {
          }
          fetchUsername()
       }
-   }, [isAuth])
+   }, [isAuth, navigate])
 
 
    const signOutFunction = async () => {
