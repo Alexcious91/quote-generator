@@ -78,8 +78,10 @@ function MyQuotes() { //eslint-disable-next-line
          const response = await axios.put(`https://quote-generator-backend.onrender.com/api/edit/quote/${quoteId}`, {
             quote: quote
          })
-         setMessage(prevMessages => ({ ...prevMessages, edited: response.data.message }))
-
+         setMessage(prevMessages => ({ ...prevMessages, edited: response.data.message })) // avoid object mutation
+         setTimeout(() => {
+            window.location.reload()
+         }, 1500)
          handleClose() // close modal after submission
       } catch (error) {
          console.error(`[ERROR Updating]: ${error}`)
@@ -98,7 +100,7 @@ function MyQuotes() { //eslint-disable-next-line
             <div className='text-danger text-center bg-light rounded p-3'>{error}</div>
          )}
 
-         {message ? ( 
+         {message.edited ? ( 
             <div className='text-success text-center bg-light rounded p-3'>{message.edited}</div>
          ) : (
             <div className='text-danger text-center bg-light rounded p-3'>{message.deleted}</div>
